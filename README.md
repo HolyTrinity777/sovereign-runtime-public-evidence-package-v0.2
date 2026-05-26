@@ -156,7 +156,7 @@ Published datasets include:
 
 ⸻
 
-Runtime Results
+# Runtime Results
 
 Published result artifacts include:
 
@@ -165,9 +165,10 @@ Published result artifacts include:
 * aggregate evaluation summaries
 * append-only JSONL event logs
 
+
 ⸻
 
-Evaluation Harnesses
+# Evaluation Harnesses
 
 The repository additionally publishes evaluation harnesses used for structured runtime execution and live resilience testing.
 
@@ -175,7 +176,7 @@ These harnesses expose evaluation behavior only and do not expose internal orche
 
 ⸻
 
-Observable Runtime Behaviors
+# Observable Runtime Behaviors
 
 Across the published evaluation suite, the runtime consistently demonstrated:
 
@@ -189,7 +190,7 @@ Across the published evaluation suite, the runtime consistently demonstrated:
 
 ⸻
 
-Limitations
+# Limitations
 
 This repository publishes the public evidence layer only.
 
@@ -212,7 +213,7 @@ Distributed multi-node deployment behavior is not covered in this release.
 
 ⸻
 
-Reproducibility
+# Reproducibility
 
 The repository includes reproducible public verification artifacts.
 
@@ -226,7 +227,7 @@ Reviewers should independently verify artifact integrity prior to analysis.
 
 ⸻
 
-License
+# License
 
 This repository is governed by the Sovereign Runtime Public Evidence Package License.
 
@@ -238,7 +239,7 @@ Commercial usage, redistribution, derivative deployment, AI/ML training usage, o
 
 ⸻
 
-Private Access & NDA
+# Private Access & NDA
 
 The private runtime core is maintained separately.
 
