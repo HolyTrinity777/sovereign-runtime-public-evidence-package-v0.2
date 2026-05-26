@@ -192,7 +192,7 @@ Across the published evaluation suite, the runtime consistently demonstrated:
 
 # Limitations
 
-This repository publishes the public evidence layer only.
+This repository publishes structured datasets, execution traces, live API test results, reproducibility tooling, and aggregate verification summaries.
 
 The following are intentionally excluded:
 
