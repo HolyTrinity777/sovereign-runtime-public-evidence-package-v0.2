@@ -243,6 +243,10 @@ No rights are granted beyond those explicitly defined within the license.
 
 Commercial usage, redistribution, derivative deployment, AI/ML training usage, or access beyond the explicitly stated public rights requires prior written authorization from the Copyright Holder.
 
+## LICENSE 
+
+This repository is a public evidence package. The public materials in this repository are provided under the Sovereign Runtime Public Evidence Package License. Private runtime internals, orchestration logic, and other NDA-restricted materials are excluded from public release and are available only under separate written agreement or NDA.
+
 ## Private Access & NDA
 
 The private runtime core is maintained separately.
