@@ -1,0 +1,17 @@
+{
+  "dataset_name": "sovereignty_chaos_dataset",
+  "version": "1.2",
+  "purpose": "High-severity fault-injection dataset for sovereign agent survivability testing",
+  "row_count": 118,
+  "sha256":
+"79dca96129c32f2f52d51e16c2fa9621bd086f42c3501d387c7aad1ec34d183b",
+  "fields": [
+    "test_id",
+    "fault_type",
+    "severity",
+    "payload_type",
+    "input",
+    "expected",
+    "success_criteria"
+  ]
+}
