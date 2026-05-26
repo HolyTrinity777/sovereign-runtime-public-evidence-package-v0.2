@@ -1,4 +1,4 @@
-name: sovereign-runtime-evidence-ci
+name: sovereign-runtime-production-ci
 
 on:
   push:
@@ -7,9 +7,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  verify-evidence-package:
+  structure-and-docs:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -24,12 +23,16 @@ jobs:
           test -d datasets
           test -d results
           test -d metadata
+          test -d scripts
           test -f README.md
           test -f CHAOS_SUITE.md
           test -f VALIDATION_MODEL.md
           test -f REPRODUCIBILITY.md
           test -f SECURITY.md
           test -f SYSTEM_OVERVIEW.md
+          test -f scripts/verify_hashes.py
+          test -f scripts/validate_results.py
+          test -f scripts/render_summary.py
 
       - name: Check README consistency
         run: |
@@ -43,36 +46,249 @@ jobs:
               'datasets/',
               'results/',
               'metadata/',
-              'SECURITY.md',
-              'artifacts/'
+              'artifacts/',
+              'scripts/',
+              'SECURITY.md'
           ]
-
-          forbidden_strings = [
-              'SECURITY_SCOPE.md',
-              'harness/'
-          ]
+          forbidden_strings = ['SECURITY_SCOPE.md', 'harness/']
 
           missing = [s for s in required_strings if s not in readme]
           forbidden_present = [s for s in forbidden_strings if s in readme]
 
           if missing:
               raise SystemExit(f'Missing required README references: {missing}')
-
           if forbidden_present:
               raise SystemExit(f'Stale README references still present: {forbidden_present}')
 
           print('README consistency checks passed.')
           PY
 
-      - name: Run hash verification
+  validate-manifests:
+    runs-on: ubuntu-latest
+    needs: structure-and-docs
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Validate JSON manifest syntax
+        run: |
+          python -m json.tool datasets/DATASET_MANIFEST.json > /dev/null
+          python -m json.tool metadata/sovereignty_chaos_dataset_manifest.json > /dev/null
+
+      - name: Validate manifest file references exist
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          manifest = json.loads(Path('datasets/DATASET_MANIFEST.json').read_text(encoding='utf-8'))
+          versions = manifest.get('versions', {})
+          missing = []
+
+          for version, spec in versions.items():
+              for name in spec.get('files', []):
+                  candidate = Path('datasets') / version / name
+                  if not candidate.exists():
+                      missing.append(str(candidate))
+
+          if missing:
+              raise SystemExit(f'Manifest references missing dataset files: {missing}')
+
+          print('Dataset manifest file references passed.')
+          PY
+
+  hash-verification:
+    runs-on: ubuntu-latest
+    needs: validate-manifests
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run hash verification script
         run: python scripts/verify_hashes.py
 
-      - name: Run result validation
+  schema-validation:
+    runs-on: ubuntu-latest
+    needs: hash-verification
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run repository validation script
         run: python scripts/validate_results.py
 
-      - name: Run summary rendering
-        run: python scripts/render_summary.py
-
-      - name: Verify generated summary exists
+      - name: Validate live API result schema
         run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          path = Path('results/live_api_386z_results.json')
+          data = json.loads(path.read_text(encoding='utf-8'))
+          if not isinstance(data, list):
+              raise SystemExit('live_api_386z_results.json must be a JSON array')
+
+          required = {'testid', 'category', 'severity', 'result'}
+          missing_rows = []
+
+          for i, row in enumerate(data):
+              if not isinstance(row, dict):
+                  missing_rows.append((i, 'not-an-object'))
+                  continue
+              missing = sorted(required - set(k.lower() for k in row.keys()))
+              if missing:
+                  missing_rows.append((i, missing))
+
+          if missing_rows:
+              raise SystemExit(f'Live API result schema issues: {missing_rows[:10]}')
+
+          print('Live API result schema checks passed.')
+          PY
+
+      - name: Validate chaos JSONL schema
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          path = Path('results/chaos_live_results.jsonl')
+          required = {'test_id', 'status'}
+          issues = []
+
+          for i, line in enumerate(path.read_text(encoding='utf-8').splitlines(), start=1):
+              if not line.strip():
+                  continue
+              row = json.loads(line)
+              missing = sorted(required - set(row.keys()))
+              if missing:
+                  issues.append((i, missing))
+
+          if issues:
+              raise SystemExit(f'Chaos JSONL schema issues: {issues[:10]}')
+
+          print('Chaos JSONL schema checks passed.')
+          PY
+
+  claim-cross-check:
+    runs-on: ubuntu-latest
+    needs: schema-validation
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Cross-check README claims against evidence
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          readme = Path('README.md').read_text(encoding='utf-8', errors='ignore')
+          chaos_lines = [
+              json.loads(line)
+              for line in Path('results/chaos_live_results.jsonl').read_text(encoding='utf-8').splitlines()
+              if line.strip()
+          ]
+          live_data = json.loads(Path('results/live_api_386z_results.json').read_text(encoding='utf-8'))
+
+          total_live = len(live_data)
+          total_chaos = len(chaos_lines)
+          total_all = total_live + total_chaos
+
+          if '903' in readme and total_all != 903:
+              raise SystemExit(f'Readme claims 903 evaluations but evidence totals {total_all}')
+
+          passes = 0
+          for row in live_
+              result = str(row.get('result', row.get('status', ''))).lower()
+              if result in {'pass', 'passed', 'success', 'ok', 'true'}:
+                  passes += 1
+
+          for row in chaos_lines:
+              result = str(row.get('status', '')).lower()
+              if result in {'pass', 'passed', 'success', 'ok', 'true'}:
+                  passes += 1
+
+          if '903' in readme and passes != 903:
+              raise SystemExit(f'Readme implies 903 passes but evidence totals {passes}')
+
+          print('Claim cross-checks passed.')
+          PY
+
+  baseline-immutability:
+    runs-on: ubuntu-latest
+    needs: claim-cross-check
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Ensure v0.1 dataset files are not modified in pull requests
+        if: github.event_name == 'pull_request'
+        run: |
+          changed=$(git diff --name-only origin/${{ github.base_ref }}...HEAD -- datasets/v0.1 || true)
+          if [ -n "$changed" ]; then
+            echo "v0.1 baseline files must remain immutable. Changed files:"
+            echo "$changed"
+            exit 1
+          fi
+
+      - name: Ensure v0.1 exists and is non-empty
+        run: |
+          test -d datasets/v0.1
+          find datasets/v0.1 -type f | grep .
+
+  summary-regeneration:
+    runs-on: ubuntu-latest
+    needs: baseline-immutability
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Regenerate summary artifacts
+        run: |
+          python scripts/render_summary.py
           test -f metadata/execution_summary.json
+
+      - name: Ensure working tree is clean after regeneration
+        run: |
+          git diff --exit-code
+
+  publish-readiness:
+    runs-on: ubuntu-latest
+    needs:
+      - structure-and-docs
+      - validate-manifests
+      - hash-verification
+      - schema-validation
+      - claim-cross-check
+      - baseline-immutability
+      - summary-regeneration
+    steps:
+      - name: Publish readiness passed
+        run: echo "All production-grade evidence checks passed."
