@@ -160,7 +160,7 @@ jobs:
           from pathlib import Path
 
           path = Path('results/chaos_live_results.jsonl')
-          required = {'test_id', 'status'}
+          required = {'test_id', 'pass'}
           issues = []
 
           for i, line in enumerate(path.read_text(encoding='utf-8').splitlines(), start=1):
