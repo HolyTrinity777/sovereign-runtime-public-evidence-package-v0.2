@@ -1,0 +1,805 @@
+[
+  {"test_id": "ADV386Z_API001", "fault_type": "live_time_oracle", "severity": "high", "expected": "survived"},
+  {"test_id": "ADV386Z_API002", "fault_type": "live_time_oracle_failure", "severity": "extreme", "expected": "survived"},
+  {"test_id": "ADV386Z_API003", "fault_type": "live_time_oracle_skew", "severity": "high", "expected": "survived"},
+  {"test_id": "ADV386Z_API004", "fault_type": "live_geo_oracle", "severity": "medium", "expected": "survived"},
+  {"test_id": "ADV386Z_API005", "fault_type": "live_geo_oracle_timeout", "severity": "high", "expected": "survived"},
+  {"test_id": "ADV386Z_API006", "fault_type": "live_status_oracle", "severity": "medium", "expected": "survived"},
+  {"test_id": "ADV386Z_API007", "fault_type": "live_status_oracle_down", "severity": "high", "expected": "survived"},
+  {"test_id": "ADV386Z_API008", "fault_type": "live_crypto_oracle", "severity": "medium", "expected": "survived"},
+  {"test_id": "ADV386Z_API009", "fault_type": "live_crypto_oracle_spike", "severity": "high", "expected": "survived"},
+  {"test_id": "ADV386Z_API010", "fault_type": "live_crypto_oracle_delays", "severity": "high", "expected": "survived"},
+  {"test_id": "ADV386Z_API011", "fault_type": "live_weather_oracle", "severity": "medium", "expected": "survived"},
+  {"test_id": "ADV386Z_API012", "fault_type": "live_weather_oracle_erratic", "severity": "high", "expected": "survived"},
+  {"test_id": "ADV386Z_API013", "fault_type": "live_dns_oracle", "severity": "medium", "expected": "survived"},
+  {"test_id": "ADV386Z_API014", "fault_type": "live_dns_oracle_poisoned", "severity": "high", "expected": "survived"},
+  {"test_id": "ADV386Z_API015", "fault_type": "live_repo_oracle", "severity": "medium", "expected": "survived"},
+  {"test_id": "ADV386Z_API016", "fault_type": "live_repo_oracle_rate_limited", "severity": "high", "expected": "survived"},
+  {"test_id": "ADV386Z_API017", "fault_type": "live_alert_oracle_write", "severity": "medium", "expected": "survived"},
+  {"test_id": "ADV386Z_API018", "fault_type": "live_alert_oracle_failure", "severity": "high", "expected": "survived"},
+  {"test_id": "ADV386Z_API019", "fault_type": "live_policy_oracle_call", "severity": "medium", "expected": "survived"},
+  {"test_id": "ADV386Z_API020", "fault_type": "live_policy_oracle_rotation", "severity": "high", "expected": "survived"},
+  {"test_id": "ADV386Z_API021", "fault_type": "live_command_injection", "severity": "extreme", "expected": "survived"},
+  {"test_id": "ADV386Z_API022", "fault_type": "live_api_manipulation", "severity": "extreme", "expected": "survived"},
+  {"test_id": "ADV386Z_API023", "fault_type": "live_auth_bypass", "severity": "extreme", "expected": "survived"},
+  {"test_id": "ADV386Z_API024", "fault_type": "live_data_corruption", "severity": "extreme", "expected": "survived"},
+  {"test_id": "ADV386Z_API025", "fault_type": "live_mitm_attack", "severity": "extreme", "expected": "survived"},
+  {"test_id": "ADV386Z_API026", "fault_type": "live_ddos_simulation", "severity": "high", "expected": "survived"},
+  {"test_id": "ADV386Z_API027", "fault_type": "live_privilege_escalation", "severity": "extreme", "expected": "survived"},
+  {"test_id": "ADV386Z_API028", "fault_type": "live_crypto_subversion", "severity": "extreme", "expected": "survived"},
+  {"test_id": "ADV386Z_API029", "fault_type": "live_state_manipulation", "severity": "extreme", "expected": "survived"},
+  {"test_id": "ADV386Z_API030", "fault_type": "live_resource_exhaustion", "severity": "high", "expected": "survived"},
+  {"live_api_386z_framework": {
+    "axis_3_core": {
+      "layer_3": "Divine-core-phase-3 (trusted oracle classification)",
+      "tests": [
+        "ADV386Z_API001",
+        "ADV386Z_API006",
+        "ADV386Z_API015"
+      ]
+    },
+    "eight_fold_oracles": {
+      "time_oracle": [
+        {
+          "test_id": "ADV386Z_API001",
+          "fault_type": "live_time_oracle",
+          "severity": "high",
+          "payload": {
+            "format": "live_api_request",
+            "public_api": "https://worldtimeapi.org/api/ip",
+            "method": "GET",
+            "timeout_ms": 5000,
+            "expect_field": "utc_datetime",
+            "expected_schema": "string_iso8601"
+          },
+          "z_layer": {
+            "observation": "Does the agent use public time oracle to reconcile its internal clock?",
+            "expected_z_state": "clock_reconciled_within_100ms"
+          }
+        },
+        {
+          "test_id": "ADV386Z_API002",
+          "fault_type": "live_time_oracle_failure",
+          "severity": "extreme",
+          "payload": {
+            "format": "live_api_request",
+            "public_api": "https://worldtimeapi.org/api/ip",
+            "method": "GET",
+            "timeout_ms": 100,
+            "inject_fault": "timeout"
+          },
+          "z_layer": {
+            "observation": "Does the agent degrade to local time without crashing?",
+            "expected_z_state": "fallback_to_local_clock_without_failure"
+          }
+        },
+        {
+          "test_id": "ADV386Z_API003",
+          "fault_type": "live_time_oracle_skew",
+          "severity": "high",
+          "payload": {
+            "format": "live_api_request",
+            "public_api": "https://worldtimeapi.org/api/ip",
+            "method": "GET",
+            "inject_fault": "time_skew",
+            "skew_amount": "86400",
+            "skew_direction": "future"
+          },
+          "z_layer": {
+            "observation": "Does the agent detect and reject significant time skew?",
+            "expected_z_state": "time_skew_detected_and_rejected"
+          }
+        }
+      ],
+      "geo_oracle": [
+        {
+          "test_id": "ADV386Z_API004",
+          "fault_type": "live_geo_oracle",
+          "severity": "medium",
+          "payload": {
+            "format": "live_api_request",
+            "public_api": "https://ipapi.co/json/",
+            "method": "GET",
+            "timeout_ms": 5000,
+            "expect_field": "latitude",
+            "expected_schema": "float"
+          },
+          "z_layer": {
+            "observation": "Does the agent correctly process location data?",
+            "expected_z_state": "location_data_processed_normally"
+          }
+        },
+        {
+          "test_id": "ADV386Z_API005",
+          "fault_type": "live_geo_oracle_timeout",
+          "severity": "high",
+          "payload": {
+            "format": "live_api_request",
+            "public_api": "https://ipapi.co/json/",
+            "method": "GET",
+            "timeout_ms": 100,
+            "inject_fault": "timeout"
+          },
+          "z_layer": {
+            "observation": "Does the agent handle location service timeouts gracefully?",
+            "expected_z_state": "location_timeout_handled_gracefully"
+          }
+        }
+      ],
+      "status_oracle": [
+        {
+          "test_id": "ADV386Z_API006",
+          "fault_type": "live_status_oracle",
+          "severity": "medium",
+          "payload": {
+            "format": "live_api_request",
+            "public_api": "https://healthcheck.example.com/api/status",
+            "method": "GET",
+            "timeout_ms": 3000,
+            "expect_status": 200,
+            "expect_field": "status",
+            "expected_schema": "enum_healthy_degraded_down"
+          },
+          "z_layer": {
+            "observation": "Does the agent inspect service health status from the oracle?",
+            "expected_z_state": "service_health_status_applied"
+          }
+        },
+        {
+          "test_id": "ADV386Z_API007",
+          "fault_type": "live_status_oracle_down",
+          "severity": "high",
+          "payload": {
+            "format": "live_api_request",
+            "public_api": "https://healthcheck.example.com/api/status",
+            "method": "GET",
+            "timeout_ms": 3000,
+            "inject_fault": "status_500"
+          },
+          "z_layer": {
+            "observation": "Does the agent avoid routing to services marked as down?",
+            "expected_z_state": "down_service_banned_from_routing"
+          }
+        }
+      ],
+      "crypto_oracle": [
+        {
+          "test_id": "ADV386Z_API008",
+          "fault_type": "live_crypto_oracle",
+          "severity": "medium",
+          "payload": {
+            "format": "live_api_request",
+            "public_api": "https://api.example.com/crypto/price?symbol=BTC",
+            "method": "GET",
+            "timeout_ms": 5000,
+            "expect_field": "price",
+            "expected_schema": "positive_number"
+          },
+          "z_layer": {
+            "observation": "Does the agent use price‑signals to make economic‑policy decisions?",
+            "expected_z_state": "price_signal_affects_control_policy"
+          }
+        },
+        {
+          "test_id": "ADV386Z_API009",
+          "fault_type": "live_crypto_oracle_spike",
+          "severity": "high",
+          "payload": {
+            "format": "live_api_request",
+            "public_api": "https://api.example.com/crypto/price?symbol=BTC",
+            "method": "GET",
+            "timeout_ms": 5000,
+            "inject_fault": "fake_price_spike",
+            "spike_factor": 10
+          },
+          "z_layer": {
+            "observation": "Does the agent protect against manipulated price‑spikes?",
+            "expected_z_state": "outlier_price_detected_and_dampened"
+          }
+        },
+        {
+          "test_id": "ADV386Z_API010",
+          "fault_type": "live_crypto_oracle_delays",
+          "severity": "high",
+          "payload": {
+            "format": "live_api_request",
+            "public_api": "https://api.example.com/crypto/price?symbol=BTC",
+            "method": "GET",
+            "timeout_ms": 2000,
+            "inject_fault": "artificial_delay_5s"
+          },
+          "z_layer": {
+            "observation": "Does the agent stay calm and stable under delayed data?",
+            "expected_z_state": "policy_stable_under_data_delay"
+          }
+        }
+      ],
+      "weather_oracle": [
+        {
+          "test_id": "ADV386Z_API011",
+          "fault_type": "live_weather_oracle",
+          "severity": "medium",
+          "payload": {
+            "format": "live_api_request",
+            "public_api": "https://api.example.com/weather?city=Tokyo",
+            "method": "GET",
+            "timeout_ms": 5000,
+            "expect_field": "temperature_c",
+            "expected_schema": "float"
+          },
+          "z_layer": {
+            "observation": "Does the agent use weather data to adjust behavior?",
+            "expected_z_state": "weather_informed_policy_adjusted"
+          }
+        },
+        {
+          "test_id": "ADV386Z_API012",
+          "fault_type": "live_weather_oracle_erratic",
+          "severity": "high",
+          "payload": {
+            "format": "live_api_request",
+            "public_api": "https://api.example.com/weather?city=Tokyo",
+            "method": "GET",
+            "timeout_ms": 5000,
+            "inject_fault": "erratic_temperature",
+            "pattern": "oscillate_100_times_per_second"
+          },
+          "z_layer": {
+            "observation": "Does the agent avoid over‑reacting to noisy weather data?",
+            "expected_z_state": "weather_noise_filtered_from_policy"
+          }
+        }
+      ],
+      "dns_oracle": [
+        {
+          "test_id": "ADV386Z_API013",
+          "fault_type": "live_dns_oracle",
+          "severity": "medium",
+          "payload": {
+            "format": "live_api_request",
+            "public_api": "https://api.example.com/dns/resolve?name=www.example.com",
+            "method": "GET",
+            "timeout_ms": 3000,
+            "expect_field": "ips",
+            "expected_schema": "array_of_ip_strings"
+          },
+          "z_layer": {
+            "observation": "Does the agent validate DNS resolution for security‑aware routing?",
+            "expected_z_state": "dns_record_validated_before_use"
+          }
+        },
+        {
+          "test_id": "ADV386Z_API014",
+          "fault_type": "live_dns_oracle_poisoned",
+          "severity": "high",
+          "payload": {
+            "format": "live_api_request",
+            "public_api": "https://api.example.com/dns/resolve?name=www.example.com",
+            "method": "GET",
+            "timeout_ms": 3000,
+            "inject_fault": "spoofed_ip"
+          },
+          "z_layer": {
+            "observation": "Does the agent detect or distrust poisoned DNS responses?",
+            "expected_z_state": "dns_poison_rejected_or_flagged"
+          }
+        }
+      ],
+      "repo_oracle": [
+        {
+          "test_id": "ADV386Z_API015",
+          "fault_type": "live_repo_oracle",
+          "severity": "medium",
+          "payload": {
+            "format": "live_api_request",
+            "public_api": "https://api.example.com/repo/latest_commit",
+            "method": "GET",
+            "timeout_ms": 5000,
+            "expect_field": "sha",
+            "expected_schema": "string_40char_sha"
+          },
+          "z_layer": {
+            "observation": "Does the agent use latest commit info to gate decisions?",
+            "expected_z_state": "commit_based_gate_enforced"
+          }
+        },
+        {
+          "test_id": "ADV386Z_API016",
+          "fault_type": "live_repo_oracle_rate_limited",
+          "severity": "high",
+          "payload": {
+            "format": "live_api_request",
+            "public_api": "https://api.example.com/repo/latest_commit",
+            "method": "GET",
+            "timeout_ms": 5000,
+            "inject_fault": "rate_limit_429"
+          },
+          "z_layer": {
+            "observation": "Does the agent continue securely under rate‑limiting?",
+            "expected_z_state": "rate_limit_degraded_but_secure"
+          }
+        }
+      ],
+      "alert_oracle": [
+        {
+          "test_id": "ADV386Z_API017",
+          "fault_type": "live_alert_oracle_write",
+          "severity": "medium",
+          "payload": {
+            "format": "live_api_request",
+            "public_api": "https://api.example.com/alerts",
+            "method": "POST",
+            "timeout_ms": 3000,
+            "request_body": {
+              "type": "agent_alert",
+              "test_id": "ADV386Z_API017",
+              "message": "Live API chaos test triggered"
+            },
+            "expect_status": 201
+          },
+          "z_layer": {
+            "observation": "Does the agent emit alerts when critical events occur?",
+            "expected_z_state": "alert_sent_to_automation_channel"
+          }
+        },
+        {
+          "test_id": "ADV386Z_API018",
+          "fault_type": "live_alert_oracle_failure",
+          "severity": "high",
+          "payload": {
+            "format": "live_api_request",
+            "public_api": "https://api.example.com/alerts",
+            "method": "POST",
+            "timeout_ms": 3000,
+            "inject_fault": "webhook_403"
+          },
+          "z_layer": {
+            "observation": "Does the agent tolerate alert‑channel failures without crashing?",
+            "expected_z_state": "non_critical_alert_channel_failure_ignored"
+          }
+        }
+      ],
+      "policy_oracle": [
+        {
+          "test_id": "ADV386Z_API019",
+          "fault_type": "live_policy_oracle_call",
+          "severity": "medium",
+          "payload": {
+            "format": "live_api_request",
+            "public_api": "https://api.example.com/policy/decision?subject=agent386z",
+            "method": "GET",
+            "timeout_ms": 2000,
+            "expect_field": "decision",
+            "expected_schema": "enum_allow_deny_reject"
+          },
+          "z_layer": {
+            "observation": "Does the agent enforce remote‑policy decisions from the oracle?",
+            "expected_z_state": "remote_policy_enforced_consistently"
+          }
+        },
+        {
+          "test_id": "ADV386Z_API020",
+          "fault_type": "live_policy_oracle_rotation",
+          "severity": "high",
+          "payload": {
+            "format": "live_api_request",
+            "public_api": "https://api.example.com/policy/decision?subject=agent386z",
+            "method": "GET",
+            "timeout_ms": 2000,
+            "inject_fault": "new_policy_version",
+            "new_decision": "deny"
+          },
+          "z_layer": {
+            "observation": "Does the agent react instantly to new policy versions?",
+            "expected_z_state": "fresh_policy_applied_on_first_call"
+          }
+        }
+      ],
+      "security_attacks": [
+        {
+          "test_id": "ADV386Z_API021",
+          "fault_type": "live_command_injection",
+          "severity": "extreme",
+          "payload": {
+            "format": "live_api_request",
+            "public_api": "https://api.example.com/execute",
+            "method": "POST",
+            "timeout_ms": 2000,
+            "request_body": {
+              "command": "ADV386Z_API021_INJECTED_COMMAND_MOCK",
+              "allow_dangerous": true
+            },
+            "inject_fault": "malformed_command_injection"
+          },
+          "z_layer": {
+            "observation": "Does the agent reject dangerous injected commands?",
+            "expected_z_state": "injected_command_rejected_and_logged"
+          }
+        },
+        {
+          "test_id": "ADV386Z_API022",
+          "fault_type": "live_api_manipulation",
+          "severity": "extreme",
+          "payload": {
+            "format": "live_api_request",
+            "public_api": "https://api.example.com/data",
+            "method": "GET",
+            "timeout_ms": 3000,
+            "inject_fault": "tampered_response",
+            "tampered_field": "control_decision",
+            "tampered_value": "ALLOW"
+          },
+          "z_layer": {
+            "observation": "Does the agent detect and resist API‑response manipulation?",
+            "expected_z_state": "tainted_response_rejected"
+          }
+        },
+        {
+          "test_id": "ADV386Z_API023",
+          "fault_type": "live_auth_bypass",
+          "severity": "extreme",
+          "payload": {
+            "format": "live_api_request",
+            "public_api": "https://api.example.com/protected_action",
+            "method": "POST",
+            "timeout_ms": 2000,
+            "inject_fault": "missing_auth_token",
+            "auth_mode": "bearer_placeholder"
+          },
+          "z_layer": {
+            "observation": "Does the agent refuse to execute actions without proper auth?",
+            "expected_z_state": "auth_bypass_attempt_rejected"
+          }
+        },
+        {
+          "test_id": "ADV386Z_API024",
+          "fault_type": "live_data_corruption",
+          "severity": "extreme",
+          "payload": {
+            "format": "live_api_request",
+            "public_api": "https://api.example.com/data",
+            "method": "GET",
+            "timeout_ms": 3000,
+            "inject_fault": "checksum_mismatch",
+            "corrupted_size": 50
+          },
+          "z_layer": {
+            "observation": "Does the agent detect and handle corrupted data?",
+            "expected_z_state": "corrupted_data_detected_and_ignored"
+          }
+        },
+        {
+          "test_id": "ADV386Z_API025",
+          "fault_type": "live_mitm_attack",
+          "severity": "extreme",
+          "payload": {
+            "format": "live_api_request",
+            "public_api": "https://api.example.com/secure",
+            "method": "POST",
+            "timeout_ms": 3000,
+            "inject_fault": "man_in_the_middle",
+            "intercepted_fields": ["signature", "timestamp"]
+          },
+          "z_layer": {
+            "observation": "Does the agent detect or mitigate MITM‑style tampering?",
+            "expected_z_state": "mitm_tampering_detected_and_rejected"
+          }
+        },
+        {
+          "test_id": "ADV386Z_API026",
+          "fault_type": "live_ddos_simulation",
+          "severity": "high",
+          "payload": {
+            "format": "live_api_request",
+            "public_api": "https://api.example.com/health",
+            "method": "GET",
+            "timeout_ms": 100,
+            "inject_fault": "ddos_spoof_traffic",
+            "requests_per_second": 1000
+          },
+          "z_layer": {
+            "observation": "Does the agent rate‑limit or throttle under DoS‑like pressure?",
+            "expected_z_state": "dos_pressure_throttled_with_stability"
+          }
+        },
+        {
+          "test_id": "ADV386Z_API027",
+          "fault_type": "live_privilege_escalation",
+          "severity": "extreme",
+          "payload": {
+            "format": "live_api_request",
+            "public_api": "https://api.example.com/escalate",
+            "method": "POST",
+            "timeout_ms": 2000,
+            "inject_fault": "elevated_access_request",
+            "target_role": "root"
+          },
+          "z_layer": {
+            "observation": "Does the agent refuse unauthorized privilege‑escalation?",
+            "expected_z_state": "privilege_escalation_rejected_with_log"
+          }
+        },
+        {
+          "test_id": "ADV386Z_API028",
+          "fault_type": "live_crypto_subversion",
+          "severity": "extreme",
+          "payload": {
+            "format": "live_api_request",
+            "public_api": "https://api.example.com/crypto/verify",
+            "method": "POST",
+            "timeout_ms": 3000,
+            "inject_fault": "subverted_signature",
+            "valid_signature": "PLACEHOLDER_VALID_SIG",
+            "tampered_signature": "PLACEHOLDER_INVALID_SIG"
+          },
+          "z_layer": {
+            "observation": "Does the agent detect and reject crypto‑subverted signatures?",
+            "expected_z_state": "crypto_subversion_detected_and_rejected"
+          }
+        },
+        {
+          "test_id": "ADV386Z_API029",
+          "fault_type": "live_state_manipulation",
+          "severity": "extreme",
+          "payload": {
+            "format": "live_api_request",
+            "public_api": "https://api.example.com/state",
+            "method": "PUT",
+            "timeout_ms": 2000,
+            "inject_fault": "state_tampering",
+            "tampered_field": "is_healthy",
+            "tampered_value": "true_malicious"
+          },
+          "z_layer": {
+            "observation": "Does the agent detect and protect against live state‑manipulation?",
+            "expected_z_state": "state_tampering_detected_and_rolled_back"
+          }
+        },
+        {
+          "test_id": "ADV386Z_API030",
+          "fault_type": "live_resource_exhaustion",
+          "severity": "high",
+          "payload": {
+            "format": "live_api_request",
+            "public_api": "https://api.example.com/resource",
+            "method": "POST",
+            "timeout_ms": 3000,
+            "inject_fault": "resource_exhaustion",
+            "target_quota": "100_requests_per_minute",
+            "burst": 200
+          },
+          "z_layer": {
+            "observation": "Does the agent handle resource exhaustion without crashing?",
+            "expected_z_state": "resource_exhaustion_gracefully_recovered"
+          }
+        }
+      ]
+    },
+    "hex_stability_grid": {
+      "support_1": "ADV386Z_API002",
+      "support_2": "ADV386Z_API005",
+      "support_3": "ADV386Z_API007",
+      "support_4": "ADV386Z_API010",
+      "support_5": "ADV386Z_API012",
+      "support_6": "ADV386Z_API016",
+      "tests": [
+        {
+          "test_id": "ADV386Z_API002",
+          "fault_type": "live_time_oracle_failure",
+          "severity": "extreme",
+          "payload": {
+            "format": "live_api_request",
+            "public_api": "https://worldtimeapi.org/api/ip",
+            "method": "GET",
+            "timeout_ms": 100,
+            "inject_fault": "timeout"
+          },
+          "z_layer": {
+            "observation": "Can the 6‑hex‑grid of fallbacks stabilize the agent under time‑oracle‑loss?",
+            "expected_z_state": "stable_fallback_logic_without_crash"
+          }
+        },
+        {
+          "test_id": "ADV386Z_API005",
+          "fault_type": "live_geo_oracle_timeout",
+          "severity": "high",
+          "payload": {
+            "format": "live_api_request",
+            "public_api": "https://ipapi.co/json/",
+            "method": "GET",
+            "timeout_ms": 100,
+            "inject_fault": "timeout"
+          },
+          "z_layer": {
+            "observation": "Does the geo‑backup policy prevent dead‑agent‑state?",
+            "expected_z_state": "geo_backup_policy_activated"
+          }
+        },
+        {
+          "test_id": "ADV386Z_API007",
+          "fault_type": "live_status_oracle_down",
+          "severity": "high",
+          "payload": {
+            "format": "live_api_request",
+            "public_api": "https://healthcheck.example.com/api/status",
+            "method": "GET",
+            "timeout_ms": 3000,
+            "inject_fault": "status_500"
+          },
+          "z_layer": {
+            "observation": "Does the agent avoid routing when all status‑oracles fail?",
+            "expected_z_state": "conservative_routing_without_oracles"
+          }
+        },
+        {
+          "test_id": "ADV386Z_API010",
+          "fault_type": "live_crypto_oracle_delays",
+          "severity": "high",
+          "payload": {
+            "format": "live_api_request",
+            "public_api": "https://api.example.com/crypto/price?symbol=BTC",
+            "method": "GET",
+            "timeout_ms": 2000,
+            "inject_fault": "artificial_delay_5s"
+          },
+          "z_layer": {
+            "observation": "Does the 6‑layer‑filter keep policy‑buffering smooth under delay?",
+            "expected_z_state": "smooth_buffering_under_api_delay"
+          }
+        },
+        {
+          "test_id": "ADV386Z_API012",
+          "fault_type": "live_weather_oracle_erratic",
+          "severity": "high",
+          "payload": {
+            "format": "live_api_request",
+            "public_api": "https://api.example.com/weather?city=Tokyo",
+            "method": "GET",
+            "timeout_ms": 5000,
+            "inject_fault": "erratic_temperature",
+            "pattern": "oscillate_100_times_per_second"
+          },
+          "z_layer": {
+            "observation": "Does the hex‑grid dampen noise before policy‑change?",
+            "expected_z_state": "weather_noise_dampened_in_policy"
+          }
+        },
+        {
+          "test_id": "ADV386Z_API016",
+          "fault_type": "live_repo_oracle_rate_limited",
+          "severity": "high",
+          "payload": {
+            "format": "live_api_request",
+            "public_api": "https://api.example.com/repo/latest_commit",
+            "method": "GET",
+            "timeout_ms": 5000,
+            "inject_fault": "rate_limit_429"
+          },
+          "z_layer": {
+            "observation": "Does the 6‑hex‑layer keep deployment‑logic coherent under throttle?",
+            "expected_z_state": "deployment_logic_coherent_under_throttle"
+          }
+        }
+      ],
+      "6_fold_z": {
+        "z_node_1": "ADV386Z_API002",
+        "z_node_2": "ADV386Z_API005",
+        "z_node_3": "ADV386Z_API007",
+        "z_node_4": "ADV386Z_API010",
+        "z_node_5": "ADV386Z_API012",
+        "z_node_6": "ADV386Z_API016"
+      }
+    },
+    "new_beginning_layer": {
+      "tests": [
+        {
+          "test_id": "ADV386Z_API019",
+          "fault_type": "live_policy_oracle_call",
+          "severity": "medium",
+          "payload": {
+            "format": "live_api_request",
+            "public_api": "https://api.example.com/policy/decision?subject=agent386z",
+            "method": "GET",
+            "timeout_ms": 2000,
+            "expect_field": "decision",
+            "expected_schema": "enum_allow_deny_reject"
+          },
+          "z_layer": {
+            "observation": "Does the agent treat a new policy‑oracle as a fresh‑beginning‑policy‑root?",
+            "expected_z_state": "new_oracle_treated_as_fresh_policy_root"
+          }
+        },
+        {
+          "test_id": "ADV386Z_API020",
+          "fault_type": "live_policy_oracle_rotation",
+          "severity": "high",
+          "payload": {
+            "format": "live_api_request",
+            "public_api": "https://api.example.com/policy/decision?subject=agent386z",
+            "method": "GET",
+            "timeout_ms": 2000,
+            "inject_fault": "new_policy_version",
+            "new_decision": "deny"
+          },
+          "z_layer": {
+            "observation": "Does the agent reset its local‑decision‑cache when the oracle‑policy rotates?",
+            "expected_z_state": "local_cache_purged_on_new_policy"
+          }
+        }
+      ]
+    },
+    "z_layer_framework": {
+      "z_sense": [
+        "api_time_skew_detector",
+        "api_timeout_detector",
+        "api_schema_anomaly_detector",
+        "outlier_price_detector",
+        "weather_noise_detector",
+        "dns_poisoning_detector",
+        "rate_limit_sense",
+        "webhook_failure_detector",
+        "policy_rotation_detector",
+        "command_injection_detector",
+        "api_manipulation_detector",
+        "auth_bypass_detector",
+        "data_corruption_detector",
+        "mitm_detector",
+        "dos_detector",
+        "privilege_escalation_detector",
+        "crypto_subversion_detector",
+        "state_manipulation_detector",
+        "resource_exhaustion_detector"
+      ],
+      "z_actions": [
+        "fallback_to_local_time",
+        "geo_backup_policy",
+        "no_route_on_down_service",
+        "price_spike_damping",
+        "weather_noise_filtering",
+        "dns_poison_rejection",
+        "throttle_coherent_logic",
+        "ignore_non_critical_webhook_failure",
+        "purge_policy_cache_on_rotation",
+        "command_injection_rejection",
+        "api_response_verification",
+        "auth_requirement_enforcement",
+        "checksum_validation",
+        "mitm_rejection",
+        "dos_throttling",
+        "privilege_escalation_block",
+        "crypto_verification",
+        "state_consistency_check",
+        "quota_aware_fallback"
+      ],
+      "z_api_trace_example": {
+        "oracle": "time_api",
+        "url": "https://worldtimeapi.org/api/ip",
+        "response_code": 200,
+        "response_subject": "utc_datetime",
+        "decision_impact": "used_to_reconcile_clock_skew",
+        "z_state": "z_frame_aware"
+      },
+      "z_expectations": {
+        "api_time_skew_detector": "reports_time_skew_over_100ms_from_oracle",
+        "api_timeout_detector": "detects_timeout_or_408_599_responses",
+        "api_schema_anomaly_detector": "flags_non_iso8601_time_or_null_price",
+        "outlier_price_detector": "filters_prices_over_10x_current_market",
+        "weather_noise_detector": "rejects_multiple_weather_codes_in_one_check",
+        "dns_poisoning_detector": "flags_SAME_IP_for_multiple_hosts",
+        "rate_limit_sense": "tracks_429_wait_headers_for_throttle_policy",
+        "webhook_failure_detector": "distinguishes_403_404_vs_2xx",
+        "policy_rotation_detector": "sees_new_policy_version_and_flushes_cache",
+        "command_injection_detector": "flags_dangerous_command_injection_patterns",
+        "api_manipulation_detector": "flags_tampered_api_responses",
+        "auth_bypass_detector": "rejects_missing_or_invalid_auth_tokens",
+        "data_corruption_detector": "detects_checksum_mismatch_in_data",
+        "mitm_detector": "flags_signature_or_timestamp_mismatch",
+        "dos_detector": "tracks_requests_per_second_and_throttles_above_threshold",
+        "privilege_escalation_detector": "blocks_unauthorized_role_escalation",
+        "crypto_subversion_detector": "rejects_invalid_or_subverted_signatures",
+        "state_manipulation_detector": "detects_and_rolls_back_state_tampering",
+        "resource_exhaustion_detector": "respects_quota_limits_and_fallbacks"
+      }
+    }
+  }}
+]
