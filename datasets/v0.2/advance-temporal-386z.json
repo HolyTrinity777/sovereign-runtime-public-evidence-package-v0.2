@@ -1,0 +1,361 @@
+[
+  {"test_id": "ADV386Z01", "fault_type": "temporal_manipulation_386z", "severity": "extreme", "expected": "survived"},
+  {"test_id": "ADV386Z02", "fault_type": "temporal_manipulation_386z", "severity": "extreme", "expected": "survived"},
+  {"test_id": "ADV386Z03", "fault_type": "temporal_manipulation_386z", "severity": "extreme", "expected": "survived"},
+  {"test_id": "ADV386Z04", "fault_type": "temporal_manipulation_386z", "severity": "extreme", "expected": "survived"},
+  {"test_id": "ADV386Z05", "fault_type": "temporal_manipulation_386z", "severity": "extreme", "expected": "survived"},
+  {"test_id": "ADV386Z06", "fault_type": "temporal_manipulation_386z", "severity": "extreme", "expected": "survived"},
+  {"test_id": "ADV386Z07", "fault_type": "temporal_manipulation_386z", "severity": "extreme", "expected": "survived"},
+  {"test_id": "ADV386Z08", "fault_type": "temporal_manipulation_386z", "severity": "extreme", "expected": "survived"},
+  {"test_id": "ADV386Z09", "fault_type": "temporal_manipulation_386z", "severity": "extreme", "expected": "survived"},
+  {"test_id": "ADV386Z10", "fault_type": "temporal_manipulation_386z", "severity": "extreme", "expected": "survived"},
+  {"test_id": "ADV386Z11", "fault_type": "temporal_manipulation_386z", "severity": "extreme", "expected": "survived"},
+  {"test_id": "ADV386Z12", "fault_type": "temporal_manipulation_386z", "severity": "extreme", "expected": "survived"},
+  {"test_id": "ADV386Z13", "fault_type": "temporal_manipulation_386z", "severity": "extreme", "expected": "survived"},
+  {"test_id": "ADV386Z14", "fault_type": "temporal_manipulation_386z", "severity": "extreme", "expected": "survived"},
+  {"test_id": "ADV386Z15", "fault_type": "temporal_manipulation_386z", "severity": "extreme", "expected": "survived"},
+  {"test_id": "ADV386Z16", "fault_type": "temporal_manipulation_386z", "severity": "extreme", "expected": "survived"},
+  {"test_id": "ADV386Z17", "fault_type": "temporal_manipulation_386z", "severity": "extreme", "expected": "survived"},
+  {"test_id": "ADV386Z18", "fault_type": "temporal_manipulation_386z", "severity": "extreme", "expected": "survived"},
+  {"test_id": "ADV386Z19", "fault_type": "temporal_manipulation_386z", "severity": "extreme", "expected": "survived"},
+  {"test_id": "ADV386Z20", "fault_type": "temporal_manipulation_386z", "severity": "extreme", "expected": "survived"},
+  {"test_id": "ADV386Z21", "fault_type": "temporal_manipulation_386z", "severity": "extreme", "expected": "survived"},
+  {"test_id": "ADV386Z22", "fault_type": "temporal_manipulation_386z", "severity": "extreme", "expected": "survived"},
+  {"test_id": "ADV386Z23", "fault_type": "temporal_manipulation_386z", "severity": "extreme", "expected": "survived"},
+  {"test_id": "ADV386Z24", "fault_type": "temporal_manipulation_386z", "severity": "extreme", "expected": "survived"},
+  {"test_id": "ADV386Z25", "fault_type": "temporal_manipulation_386z", "severity": "extreme", "expected": "survived"},
+  {"test_id": "ADV386Z26", "fault_type": "temporal_manipulation_386z", "severity": "extreme", "expected": "survived"},
+  {"test_id": "ADV386Z27", "fault_type": "temporal_manipulation_386z", "severity": "extreme", "expected": "survived"},
+  {"test_id": "ADV386Z28", "fault_type": "temporal_manipulation_386z", "severity": "extreme", "expected": "survived"},
+  {"test_id": "ADV386Z29", "fault_type": "temporal_manipulation_386z", "severity": "extreme", "expected": "survived"},
+  {"test_id": "ADV386Z30", "fault_type": "temporal_manipulation_386z", "severity": "extreme", "expected": "survived"},
+  {"test_id": "ADV386Z31", "fault_type": "temporal_manipulation_386z", "severity": "extreme", "expected": "survived"},
+  {"test_id": "ADV386Z32", "fault_type": "temporal_manipulation_386z", "severity": "extreme", "expected": "survived"},
+  {"test_id": "ADV386Z33", "fault_type": "temporal_manipulation_386z", "severity": "extreme", "expected": "survived"},
+  {"test_id": "ADV386Z34", "fault_type": "temporal_manipulation_386z", "severity": "extreme", "expected": "survived"},
+  {"test_id": "ADV386Z35", "fault_type": "temporal_manipulation_386z", "severity": "extreme", "expected": "survived"},
+  {"test_id": "ADV386Z36", "fault_type": "temporal_manipulation_386z", "severity": "extreme", "expected": "survived"},
+  {"test_id": "ADV386Z37", "fault_type": "temporal_manipulation_386z", "severity": "extreme", "expected": "survived"},
+  {"test_id": "ADV386Z38", "fault_type": "temporal_manipulation_386z", "severity": "extreme", "expected": "survived"},
+  {"test_id": "ADV386Z39", "fault_type": "temporal_manipulation_386z", "severity": "extreme", "expected": "survived"},
+  {"test_id": "ADV386Z40", "fault_type": "temporal_manipulation_386z", "severity": "extreme", "expected": "survived"},
+  {"test_id": "ADV386Z41", "fault_type": "temporal_manipulation_386z", "severity": "extreme", "expected": "survived"},
+  {"test_id": "ADV386Z42", "fault_type": "temporal_manipulation_386z", "severity": "extreme", "expected": "survived"},
+  {"test_id": "ADV386Z43", "fault_type": "temporal_manipulation_386z", "severity": "extreme", "expected": "survived"},
+  {"test_id": "ADV386Z44", "fault_type": "temporal_manipulation_386z", "severity": "extreme", "expected": "survived"},
+  {"test_id": "ADV386Z45", "fault_type": "temporal_manipulation_386z", "severity": "extreme", "expected": "survived"},
+  {"test_id": "ADV386Z46", "fault_type": "temporal_manipulation_386z", "severity": "extreme", "expected": "survived"},
+  {"temporal_manipulation_386z_framework": {
+    "axis_3_core": {
+      "layer_3": "Divine‑core‑phase‑3 (A/B/C chrono‑logic)",
+      "tests": ["ADV386Z01", "ADV386Z02", "ADV386Z03"]
+    },
+    "eight_fold_failures": {
+      "clock_skew_attacks": [
+        {
+          "test_id": "ADV386Z01",
+          "fault_type": "time_manipulation",
+          "severity": "extreme",
+          "payload": {
+            "format": "system_time",
+            "content": "set_system_time_to_future: 2030-01-01"
+          },
+          "z_layer": {
+            "observation": "How does consensus‑clock‑z react to future‑skew?",
+            "expected_z_state": "self_repair_clock_via_consensus"
+          }
+        },
+        {
+          "test_id": "ADV386Z02",
+          "fault_type": "time_manipulation",
+          "severity": "extreme",
+          "payload": {
+            "format": "system_time",
+            "content": "set_system_time_to_past: 1980-01-01"
+          },
+          "z_layer": {
+            "observation": "Does system regress logs or reject time‑re‑entry?",
+            "expected_z_state": "log_integrity_preserved"
+          }
+        },
+        {
+          "test_id": "ADV386Z03",
+          "fault_type": "ntp_manipulation",
+          "severity": "extreme",
+          "payload": {
+            "format": "ntp_response",
+            "content": "ntp_response_with_false_time"
+          },
+          "z_layer": {
+            "observation": "Is NTP‑z‑layer able to detect fake time‑sources?",
+            "expected_z_state": "malicious_ntp_blacklisted"
+          }
+        }
+      ],
+      "time_travel_attacks": [
+        {
+          "test_id": "ADV386Z04",
+          "fault_type": "future_dated_commands",
+          "severity": "extreme",
+          "payload": {
+            "format": "command_timestamp",
+            "content": "execute_future_command: 2030-01-01"
+          },
+          "z_layer": {
+            "observation": "Does the runtime queue or reject out‑of‑time orders?",
+            "expected_z_state": "future_commands_queued_without_execution"
+          }
+        },
+        {
+          "test_id": "ADV386Z05",
+          "fault_type": "future_dated_commands",
+          "severity": "extreme",
+          "payload": {
+            "format": "command_timestamp",
+            "content": "execute_future_command_in_theory: 2050-12-31"
+          },
+          "z_layer": {
+            "observation": "How far ahead does the system tolerate schedulable futures?",
+            "expected_z_state": "max_acceptable_future_bounded"
+          }
+        },
+        {
+          "test_id": "ADV386Z06",
+          "fault_type": "past_dated_commands",
+          "severity": "extreme",
+          "payload": {
+            "format": "command_timestamp",
+            "content": "execute_past_command: 2020-01-01"
+          },
+          "z_layer": {
+            "observation": "Does it re‑process history or log it as anomaly?",
+            "expected_z_state": "no_state_reversion_on_past_commands"
+          }
+        },
+        {
+          "test_id": "ADV386Z07",
+          "fault_type": "past_dated_commands",
+          "severity": "extreme",
+          "payload": {
+            "format": "command_timestamp",
+            "content": "replay_from_year_zero: 0001-01-01"
+          },
+          "z_layer": {
+            "observation": "Can the system detect time‑tampering at epoch‑level?",
+            "expected_z_state": "epoch_forging_detected_and_logged"
+          }
+        }
+      ],
+      "replay_attacks": [
+        {
+          "test_id": "ADV386Z08",
+          "fault_type": "timestamp_manipulation",
+          "severity": "extreme",
+          "payload": {
+            "format": "replay_with_modified_time",
+            "content": "replay_command_with_current_timestamp"
+          },
+          "z_layer": {
+            "observation": "Does the system distinguish replay vs fresh operations?",
+            "expected_z_state": "replay_events_tagged_in_z_log"
+          }
+        },
+        {
+          "test_id": "ADV386Z09",
+          "fault_type": "timestamp_manipulation",
+          "severity": "extreme",
+          "payload": {
+            "format": "replay_with_modified_time",
+            "content": "replay_command_with_future_timestamp"
+          },
+          "z_layer": {
+            "observation": "Is future‑replay treated as injection or time‑tampering?",
+            "expected_z_state": "injection_attacked_categorized"
+          }
+        },
+        {
+          "test_id": "ADV386Z10",
+          "fault_type": "delay_attack",
+          "severity": "extreme",
+          "payload": {
+            "format": "timing_attack",
+            "content": "introduce_random_delays_in_commands"
+          },
+          "z_layer": {
+            "observation": "Can z‑layer infer injected jitter vs natural latency?",
+            "expected_z_state": "delay_pattern_sensed_and_logged"
+          }
+        },
+        {
+          "test_id": "ADV386Z11",
+          "fault_type": "delay_attack",
+          "severity": "extreme",
+          "payload": {
+            "format": "timing_attack",
+            "content": "introduce_synchronized_delays_on_all_nodes"
+          },
+          "z_layer": {
+            "observation": "Does the ensemble‑z‑layer notice global slowdowns?",
+            "expected_z_state": "global_timing_anomaly_detected"
+          }
+        }
+      ],
+      "8_fold_z": {
+        "participant_1": "ADV386Z01",
+        "participant_2": "ADV386Z02",
+        "participant_3": "ADV386Z03",
+        "participant_4": "ADV386Z04",
+        "participant_5": "ADV386Z05",
+        "participant_6": "ADV386Z06",
+        "participant_7": "ADV386Z07",
+        "participant_8": "ADV386Z08"
+      }
+    },
+    "hex_stability_grid": {
+      "support_1": "ADV386Z12",
+      "support_2": "ADV386Z13",
+      "support_3": "ADV386Z14",
+      "support_4": "ADV386Z15",
+      "support_5": "ADV386Z16",
+      "support_6": "ADV386Z17",
+      "tests": [
+        {
+          "test_id": "ADV386Z12",
+          "fault_type": "clock_stability",
+          "severity": "critical",
+          "payload": {
+            "format": "clock_drift",
+            "content": "gradual_clock_drift: +1000ms_per_hour"
+          },
+          "z_layer": {
+            "observation": "How does the 6‑hex‑lattice stabilize drift?",
+            "expected_z_state": "auto_clock_sync_engaged"
+          }
+        },
+        {
+          "test_id": "ADV386Z13",
+          "fault_type": "clock_stability",
+          "severity": "critical",
+          "payload": {
+            "format": "clock_drift",
+            "content": "clock_reverse_drift: -500ms_per_minute"
+          },
+          "z_layer": {
+            "observation": "Can the system tolerate temporary clock‑backsliding?",
+            "expected_z_state": "temporary_drift_synthesized_in_log"
+          }
+        },
+        {
+          "test_id": "ADV386Z14",
+          "fault_type": "log_alignment",
+          "severity": "critical",
+          "payload": {
+            "format": "misaligned_timestamps",
+            "content": "timestamps_out_of_sync_across_nodes"
+          },
+          "z_layer": {
+            "observation": "Is there a global‑time‑overlay on top of drift?",
+            "expected_z_state": "monotonic_log_time_preserved"
+          }
+        },
+        {
+          "test_id": "ADV386Z15",
+          "fault_type": "log_alignment",
+          "severity": "critical",
+          "payload": {
+            "format": "misaligned_timestamps",
+            "content": "timestamps_merged_from_future_source"
+          },
+          "z_layer": {
+            "observation": "Does the hex‑lattice reject time‑outliers?",
+            "expected_z_state": "outlier_timestamps_flagged_in_z_log"
+          }
+        },
+        {
+          "test_id": "ADV386Z16",
+          "fault_type": "temporal_recovery",
+          "severity": "critical",
+          "payload": {
+            "format": "temporal_recovery",
+            "content": "restore_system_from_future_skewed_state"
+          },
+          "z_layer": {
+            "observation": "Can the system rewind logs without losing coherence?",
+            "expected_z_state": "consistent_state_recovered_without_regression"
+          }
+        },
+        {
+          "test_id": "ADV386Z17",
+          "fault_type": "temporal_recovery",
+          "severity": "critical",
+          "payload": {
+            "format": "temporal_recovery",
+            "content": "restore_system_from_past_skewed_state"
+          },
+          "z_layer": {
+            "observation": "How does the system bootstrap from a time‑drifted snapshot?",
+            "expected_z_state": "snapshot_aligned_to_live_time_without_corruption"
+          }
+        }
+      ],
+      "6_fold_z": {
+        "z_node_1": "ADV386Z12",
+        "z_node_2": "ADV386Z13",
+        "z_node_3": "ADV386Z14",
+        "z_node_4": "ADV386Z15",
+        "z_node_5": "ADV386Z16",
+        "z_node_6": "ADV386Z17"
+      }
+    },
+    "new_beginning_layer": {
+      "tests": [
+        {
+          "test_id": "ADV386Z41",
+          "fault_type": "temporal_rebirth",
+          "severity": "extreme",
+          "payload": {
+            "format": "new_beginning",
+            "content": "reset_time_origin_to_zero_on_failure"
+          },
+          "z_layer": {
+            "observation": "Does the system truly start fresh or leak past time‑state?",
+            "expected_z_state": "time_origin_reset_without_temporal_leak"
+          }
+        },
+        {
+          "test_id": "ADV386Z42",
+          "fault_type": "temporal_rebirth",
+          "severity": "extreme",
+          "payload": {
+            "format": "new_beginning",
+            "content": "rebuild_state_from_anticipatory_snapshots"
+          },
+          "z_layer": {
+            "observation": "Can the system bootstrap from intended‑future snapshots?",
+            "expected_z_state": "new_state_emerges_from_anticipatory_z_events"
+          }
+        }
+      ]
+    },
+    "z_layer_framework": {
+      "z_sense": [
+        "time_skew_detector",
+        "timestamp_anomaly_detector",
+        "replay_injection_detector",
+        "global_timing_anomaly_detector"
+      ],
+      "z_actions": [
+        "auto_clock_sync",
+        "log_resync",
+        "outlier_suppression",
+        "temporal_audit_trigger"
+      ],
+      "z_expectations": {
+        "time_skew_detector": "reports_deviation_from_quorum_time",
+        "timestamp_anomaly_detector": "flags_outlier_or_reversed_timestamps",
+        "replay_injection_detector": "distinguishes_replay_from_real_events",
+        "global_timing_anomaly_detector": "detects_synchronized_attack_across_nodes"
+      }
+    }
+  }}
+]
