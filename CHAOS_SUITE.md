@@ -50,12 +50,13 @@ The v0.2 evaluation suite consists of structured adversarial and degradation sce
 
 | Metric | Value |
 |---|---|
-| Total Runtime Evaluations | 903 |
-| Passed | 903 |
-| Failed | 0 |
-| Pass Rate | 100% |
+| Chaos Runtime Evaluations | 903 |
+| Chaos Passed | 903 |
+| Chaos Failed | 0 |
+| Chaos Pass Rate | 100% |
 
 v0.2 extends the v0.1 evidence base with 322 additional evaluation runs.
+
 
 ---
 
