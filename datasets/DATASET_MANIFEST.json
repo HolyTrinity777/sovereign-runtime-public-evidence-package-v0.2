@@ -8,7 +8,7 @@
       "files": [
         "ai_manipulation_test.json",
         "api_manipulation_test.json",
-        "config_test.json",
+        "config_tests.json",
         "consensus_chaos_run_plan.csv",
         "consensus_chaos_run_plan.json",
         "crypto_subversion_test.json",
