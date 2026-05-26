@@ -1,0 +1,78 @@
+name: sovereign-runtime-evidence-ci
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  verify-evidence-package:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Verify required repository structure
+        run: |
+          test -d datasets
+          test -d results
+          test -d metadata
+          test -f README.md
+          test -f CHAOS_SUITE.md
+          test -f VALIDATION_MODEL.md
+          test -f REPRODUCIBILITY.md
+          test -f SECURITY.md
+          test -f SYSTEM_OVERVIEW.md
+
+      - name: Check README consistency
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          readme = Path('README.md').read_text(encoding='utf-8', errors='ignore')
+
+          required_strings = [
+              '903',
+              '322',
+              'datasets/',
+              'results/',
+              'metadata/',
+              'SECURITY.md',
+              'artifacts/'
+          ]
+
+          forbidden_strings = [
+              'SECURITY_SCOPE.md',
+              'harness/'
+          ]
+
+          missing = [s for s in required_strings if s not in readme]
+          forbidden_present = [s for s in forbidden_strings if s in readme]
+
+          if missing:
+              raise SystemExit(f'Missing required README references: {missing}')
+
+          if forbidden_present:
+              raise SystemExit(f'Stale README references still present: {forbidden_present}')
+
+          print('README consistency checks passed.')
+          PY
+
+      - name: Run hash verification
+        run: python scripts/verify_hashes.py
+
+      - name: Run result validation
+        run: python scripts/validate_results.py
+
+      - name: Run summary rendering
+        run: python scripts/render_summary.py
+
+      - name: Verify generated summary exists
+        run: |
+          test -f metadata/execution_summary.json
