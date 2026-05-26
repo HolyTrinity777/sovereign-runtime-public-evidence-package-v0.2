@@ -1,0 +1,50 @@
+{
+  "repository": "Sovereign Runtime Public Evidence Package",
+  "purpose": "Dataset lineage and version mapping for reproducibility and audit clarity",
+
+  "versions": {
+    "v0.1": {
+      "status": "frozen",
+      "description": "Baseline adversarial evaluation dataset",
+      "files": [
+        "ai_manipulation_test.json",
+        "api_manipulation_test.json",
+        "config_test.json",
+        "consensus_chaos_run_plan.csv",
+        "consensus_chaos_run_plan.json",
+        "crypto_subversion_test.json",
+        "exploit_test.json",
+        "network_test.csv",
+        "ontological_subversion_test.json",
+        "phishing_template.json",
+        "process_test.csv",
+        "registry_test.csv",
+        "supply_chain_test.json",
+        "temporal_manipulation_test.json"
+      ]
+    },
+
+    "v0.2": {
+      "status": "extension",
+      "description": "Expanded adversarial + live evaluation dataset",
+      "files": [
+        "advance-temporal-386z.json",
+        "live_api_386z.json",
+        "live_api_386z_results.jsonl",
+        "live_api_386z_summary.json",
+        "sovereignty_chaos_dataset.csv"
+      ]
+    }
+  },
+
+  "excluded_from_public_release": [
+    "chaos_live_api_harness.py",
+    "chaos_live_harness.py"
+  ],
+
+  "notes": {
+    "lineage_model": "v0.2 extends v0.1 without modifying baseline datasets",
+    "integrity_model": "datasets are version-scoped and immutable after publication",
+    "audit_model": "this manifest serves as the authoritative dataset index"
+  }
+}
