@@ -1,7 +1,6 @@
-{
   "count": 903,
-  "passed": 902,
-  "failed": 1,
+  "passed": 903,
+  "failed": 0,
   "results_file": "chaos_live_results.jsonl",
   "dataset_hash": "79dca96129c32f2f52d51e16c2fa9621bd086f42c3501d387c7aad1ec34d183b",
   "manifest_hash": "9c4ef92df5bbec1d7cbb53fcb25da890510151f2a2933877f9398847249154b8",
@@ -21,5 +20,5 @@
   "temporal_manipulation_hash": "cbfed8431b6719cf756bf114203c1f2ae81b7c55c020dafff70cc8802a7b4056",
   "ontological_subversion_hash": "0d62a8d6b81812fbdec7e5edd35196ea196d811853456d472ed9b06ba1a46080",
   "advanced_temporal_386z_hash": "83bb7685559dbe90aecf29348b539656dc924dea22fc14f196f86d841e11c68c",
-  "generated_at": "2026-05-26T04:20:01Z"
+  "generated_at": "2026-05-26T12:53:56Z"
 }
