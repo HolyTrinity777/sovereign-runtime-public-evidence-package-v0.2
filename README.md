@@ -23,14 +23,24 @@ Within this repository, the term **sovereign runtime** refers specifically to:
 - resistance to adversarial state corruption
 This does not imply unrestricted autonomy or uncontrolled agent behavior.
 ---
-# Verification Summary
+## Verification Summary
 ## Aggregate Evaluation Results
+
 | Metric | Value |
 |---|---|
-| Total Runtime Evaluations | 903 |
-| Passed | 903 |
-| Failed | 0 |
-| Pass Rate | 100% |
+| Chaos Runtime Evaluations | 903 |
+| Chaos Passed | 903 |
+| Chaos Failed | 0 |
+| Chaos Pass Rate | 100% |
+| Live API Evaluations | 210 |
+| Live API Passed | 210 |
+| Live API Failed | 0 |
+| Live API Pass Rate | 100% |
+| Combined Evidence Rows | 1113 |
+| Combined Passed | 1113 |
+| Combined Failed | 0 |
+| Combined Pass Rate | 100% |
+
 v0.2 extends the v0.1 evidence base with 322 additional structured evaluation runs.
 ---
 # Evaluation Domains
