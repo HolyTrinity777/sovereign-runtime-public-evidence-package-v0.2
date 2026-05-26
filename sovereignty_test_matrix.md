@@ -1,4 +1,4 @@
-# Sovereignty Chaos Test Matrix
+# Sovereignty Test Matrix
 
 This document turns sovereign-runtime claims into testable experiments for an offline-first edge agent system. The goal is to prove that domain ownership, policy supremacy, tamper detection, verifiable continuity, and recovery are enforced under real failure conditions rather than merely asserted.
 
