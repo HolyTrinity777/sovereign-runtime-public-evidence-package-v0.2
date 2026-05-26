@@ -126,7 +126,7 @@ The objective is tamper-evident runtime evidence publication and independent aud
 ├── SYSTEM_OVERVIEW.md
 ├── CHAOS_SUITE.md
 ├── VALIDATION_MODEL.md
-├── SECURITY_SCOPE.md
+├── SECURITY.md
 ├── REPRODUCIBILITY.md
 ├── sovereignty_test_matrix.md
 │
