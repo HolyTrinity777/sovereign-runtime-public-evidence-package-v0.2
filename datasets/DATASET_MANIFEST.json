@@ -30,9 +30,6 @@
       "files": [
         "advance-temporal-386z.json",
         "live_api_386z.json",
-        "live_api_386z_results.jsonl",
-        "live_api_386z_summary.json",
-        "sovereignty_chaos_dataset.csv"
       ]
     }
   },
