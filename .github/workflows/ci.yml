@@ -41,9 +41,16 @@ jobs:
           readme = Path('README.md').read_text(encoding='utf-8', errors='ignore')
 
           required_strings = [
-              '903', '322',
-              'datasets/', 'results/', 'metadata/',
-              'artifacts/', 'scripts/', 'SECURITY.md'
+              '903',
+              '322',
+              '210',
+              '1113',
+              'datasets/',
+              'results/',
+              'metadata/',
+              'artifacts/',
+              'scripts/',
+              'SECURITY.md'
           ]
           forbidden_strings = ['SECURITY_SCOPE.md', 'harness/']
 
@@ -143,7 +150,7 @@ jobs:
               if not isinstance(row, dict):
                   issues.append((i, 'not-an-object'))
                   continue
-              missing = sorted(required - set(k.lower() for k in row.keys()))
+              missing = sorted(required - set(row.keys()))
               if missing:
                   issues.append((i, missing))
 
@@ -167,6 +174,9 @@ jobs:
               if not line.strip():
                   continue
               row = json.loads(line)
+              if not isinstance(row, dict):
+                  issues.append((i, 'not-an-object'))
+                  continue
               missing = sorted(required - set(row.keys()))
               if missing:
                   issues.append((i, missing))
@@ -208,21 +218,52 @@ jobs:
               if line.strip()
           ]
 
-          total_all = len(chaos_lines) + len(live_lines)
+          chaos_total = len(chaos_lines)
+          live_total = len(live_lines)
+          combined_total = chaos_total + live_total
 
-          if '903' in readme and total_all != 903:
-              raise SystemExit(f'README claims 903 evaluations but evidence totals {total_all}')
+          if chaos_total != 903:
+              raise SystemExit(f'Chaos evidence totals {chaos_total}, expected 903')
 
-          passes = 0
+          if live_total != 210:
+              raise SystemExit(f'Live API evidence totals {live_total}, expected 210')
+
+          if combined_total != 1113:
+              raise SystemExit(f'Combined evidence totals {combined_total}, expected 1113')
+
+          chaos_passes = 0
+          for row in chaos_lines:
+              if str(row.get('pass', '')).lower() in {'true', 'pass', 'passed', 'success'}:
+                  chaos_passes += 1
+
+          live_passes = 0
           for row in live_lines:
               if str(row.get('pass', '')).lower() in {'true', 'pass', 'passed', 'success'}:
-                  passes += 1
-          for row in chaos_lines:
-              if str(row.get('status', '')).lower() in {'pass', 'passed', 'success', 'ok', 'true'}:
-                  passes += 1
+                  live_passes += 1
 
-          if '903' in readme and passes != 903:
-              raise SystemExit(f'README implies 903 passes but evidence totals {passes}')
+          combined_passes = chaos_passes + live_passes
+
+          if chaos_passes != 903:
+              raise SystemExit(f'Chaos pass count is {chaos_passes}, expected 903')
+
+          if live_passes != 210:
+              raise SystemExit(f'Live API pass count is {live_passes}, expected 210')
+
+          if combined_passes != 1113:
+              raise SystemExit(f'Combined pass count is {combined_passes}, expected 1113')
+
+          required_readme_strings = [
+              'Chaos Runtime Evaluations',
+              '903',
+              'Live API Evaluations',
+              '210',
+              'Combined Evidence Rows',
+              '1113'
+          ]
+
+          missing = [s for s in required_readme_strings if s not in readme]
+          if missing:
+              raise SystemExit(f'README is missing expected summary strings: {missing}')
 
           print('Claim cross-checks passed.')
           PY
