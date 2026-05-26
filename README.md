@@ -132,7 +132,6 @@ The objective is tamper-evident runtime evidence publication and independent aud
 │
 ├── datasets/
 ├── results/
-├── harness/
 ├── metadata/
 ├── artifacts/
 └── scripts/
