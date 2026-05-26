@@ -1,7 +1,6 @@
 {
   "repository": "Sovereign Runtime Public Evidence Package",
   "purpose": "Dataset lineage and version mapping for reproducibility and audit clarity",
-
   "versions": {
     "v0.1": {
       "status": "frozen",
@@ -23,22 +22,19 @@
         "temporal_manipulation_test.json"
       ]
     },
-
     "v0.2": {
       "status": "extension",
       "description": "Expanded adversarial + live evaluation dataset",
       "files": [
         "advance-temporal-386z.json",
-        "live_api_386z.json",
+        "live_api_386z.json"
       ]
     }
   },
-
   "excluded_from_public_release": [
     "chaos_live_api_harness.py",
     "chaos_live_harness.py"
   ],
-
   "notes": {
     "lineage_model": "v0.2 extends v0.1 without modifying baseline datasets",
     "integrity_model": "datasets are version-scoped and immutable after publication",
