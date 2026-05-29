@@ -13,7 +13,8 @@ The repository publishes:
 - Aggregate verification summaries.
 
 The repository intentionally excludes private orchestration internals, proprietary runtime logic, internal memory systems, arbitration mechanisms, and deployment infrastructure. This repository is an evidence and verification release, not a full runtime release.
-** “Sovereign” is not a marketing label. It refers to demonstrated behavior: clean state handling, strict execution boundaries, bounded autonomy, and resistance to external interference. If the system does not exhibit those properties under test, then the name is hollow. This evidence package exists so anyone can verify the observable behavior directly through datasets, scripts, screenshots, and results.**
+
+**“Sovereign” is not a marketing label. It refers to demonstrated behavior: clean state handling, strict execution boundaries, bounded autonomy, and resistance to external interference. If the system does not exhibit those properties under test, then the name is hollow. This evidence package exists so anyone can verify the observable behavior directly through datasets, scripts, screenshots, and results.**
 
 ## Core Objective
 
