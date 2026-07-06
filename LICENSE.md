@@ -72,3 +72,6 @@ IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY CLAIM, 
 Access to private runtime internals and any excluded component is available only under a separate written agreement or NDA.
 
 If any conflict exists between this license and a separate written NDA or access agreement, the separate agreement controls for the non-public materials it covers.
+
+**Email**
+kaiven2352025@proton.me
