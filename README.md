@@ -53,6 +53,14 @@ This does not imply unrestricted autonomy or uncontrolled agent behavior.
 
 v0.2 extends the v0.1 evidence base with 322 additional structured evaluation runs.
 
+## Independent Dataset and Result Verification
+
+This repository contains 1,113 published evaluation datasets and corresponding result artifacts, not only aggregate claims. Reviewers can inspect the individual test cases, runtime outputs, execution traces, integrity records, and verification scripts included in the repository.
+
+The reported 100% pass rate is calculated from these published datasets and results within the defined evaluation scope and controlled test conditions. Reviewers may independently run the documented validation commands, verify artifact integrity, inspect the relationship between each dataset and its result, and reproduce the published aggregate summary.
+
+The published evidence is intended to make the evaluation auditable and reproducible. It does not claim that every possible runtime condition has been tested, and it does not replace a separate security assessment, production qualification, or deployment-specific evaluation.
+
 ## Evaluation Domains
 
 ### Runtime Resilience
